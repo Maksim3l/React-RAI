@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../userContext";
-import StyledButton from './StyledButton';
+import StyledButton from './StyledButton.js';
 
 function Header(props) {
     const userContext = useContext(UserContext);
