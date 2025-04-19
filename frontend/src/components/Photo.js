@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import StyledButton from './StyledButton';
 
 function Photo(props) {
   // Add default empty object to avoid undefined errors
@@ -77,16 +78,10 @@ function Photo(props) {
             <span>Like ({likeCount})</span>
           </button>
 
-          {/* Vertical divider */}
-          <div className="w-px bg-gray-300" />
 
-          <button
-            onClick={handleComment}
-            className="flex-1 flex items-center justify-center py-2 text-blue-500 hover:bg-blue-50 transition-colors"
-          >
-            <span className="mr-1">💬</span>
-            <span>Comment ({photo.comments?.length || 0})</span>
-          </button>
+           <StyledButton to="/publish" color="#fff" hoverColor="#dee9fa">
+               Comment
+           </StyledButton>
         </div>
 
       </div>
