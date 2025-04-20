@@ -69,7 +69,7 @@ function Photo(props) {
 
           <div className="flex items-center mb-2">
             <span className="mr-1">Likes: </span>
-            <span>{likeCount || 0}</span>
+            <span>{likeCount}</span>
           </div>
         </div>
 

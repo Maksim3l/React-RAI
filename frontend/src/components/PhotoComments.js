@@ -65,7 +65,7 @@ function PhotoComments() {
       
       <div className="card mb-4">
         <img 
-          src={photo.path ? `http://localhost:3001/${photo.path}` : "/api/placeholder/400/300"} 
+          src={photo.path ? `http://localhost:3001${photo.path}` : "/placeholder/400/300"} 
           className="card-img-top" 
           alt={photo.title} 
         />

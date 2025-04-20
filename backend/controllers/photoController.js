@@ -157,7 +157,7 @@ module.exports = {
                 });
             }
 
-            photo.like = photo.like+1;
+            photo.likes = photo.likes+1;
 			
             photo.save(function (err, photo) {
                 if (err) {
