@@ -12,7 +12,7 @@ function PhotoComments() {
 
   useEffect(() => {
     // Fetch photo details
-    fetch(`http://localhost:3001/api/photos/${photoId}`)
+    fetch(`http://localhost:3001/photos/${photoId}`)
       .then(res => res.json())
       .then(data => {
         setPhoto(data);
@@ -35,8 +35,8 @@ function PhotoComments() {
     
     if (!newComment.trim()) return;
     
-    fetch(`http://localhost:3001/api/photos/${photoId}/comments`, {
-      method: 'POST',
+    fetch(`http://localhost:3001/photos/${photoId}`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userContext.user.token}`

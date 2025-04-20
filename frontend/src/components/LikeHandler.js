@@ -8,19 +8,16 @@ function LikeHandler() {
   const userContext = useContext(UserContext);
 
   useEffect(() => {
-    // Check if user is logged in
     if (!userContext.user) {
-      // Redirect to login if not authenticated
       navigate('/login', { state: { from: `/like/${photoId}` } });
       return;
     }
 
     // Make API call to like the photo
-    fetch(`http://localhost:3001/api/photos/${photoId}/like`, {
+    fetch(`http://localhost:3001/photos/like/${photoId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // Include authorization if needed
         'Authorization': `Bearer ${userContext.user.token}`
       }
     })
@@ -32,7 +29,7 @@ function LikeHandler() {
     })
     .then(data => {
       // Navigate back to the photos page with action parameter
-      navigate('/?action=like&photoId=' + photoId);
+      navigate('/');
     })
     .catch(error => {
       console.error('Error liking photo:', error);

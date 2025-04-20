@@ -138,5 +138,37 @@ module.exports = {
 
     publish: function(req, res){
         return res.render('photo/publish');
+    },
+
+    like: function (req, res) {
+        var id = req.params.id;
+
+        PhotoModel.findOne({_id: id}, function (err, photo) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting photo',
+                    error: err
+                });
+            }
+
+            if (!photo) {
+                return res.status(404).json({
+                    message: 'No such photo'
+                });
+            }
+
+            photo.like = photo.like+1;
+			
+            photo.save(function (err, photo) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when updating photo.',
+                        error: err
+                    });
+                }
+
+                return res.json(photo);
+            });
+        });
     }
 };

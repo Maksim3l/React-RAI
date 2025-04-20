@@ -29,16 +29,18 @@ function Photo(props) {
 
   return (
     <div className="card text-black mb-4 shadow">
-      <img
-        className="card-img"
-        src={photo.path ? "http://localhost:3001/" + photo.path : "/api/placeholder/400/300"}
-        alt={photo.title || "Photo"}
-      />
-
-      {/* Title overlay */}
-      <div className="card-img-overlay">
-        <h4 className="card-title font-bold">{photo.title || "Untitled Photo"}</h4>
-      </div>
+  <div className="relative bg-white-100">
+    <img
+      className="card-img"
+      src={photo.path ? "http://localhost:3001" + photo.path : "/api/placeholder/400/300"}
+      alt={photo.title || "Photo"}
+    />
+    {/* Title overlay positioned absolutely within the image container */}
+    <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-30 p-2">
+      <h4 className="card-title font-bold text-black">{photo.title || "Untitled Photo"}</h4>
+    </div>
+  </div>
+  
 
       {/* Details section below image */}
       <div className="card-body bg-gray-50 p-3">
@@ -77,7 +79,7 @@ function Photo(props) {
                Like
            </StyledButton>
 
-           <StyledButton to={`/photo/${photo._id}/comments`} color="#fff" hoverColor="#dee9fa">
+           <StyledButton to={`/photo/${photo._id}`} color="#fff" hoverColor="#dee9fa">
                Comment
            </StyledButton>
         </div>
