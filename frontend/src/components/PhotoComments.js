@@ -15,7 +15,8 @@ function PhotoComments() {
     fetch(`http://localhost:3001/photos/${photoId}`)
       .then(res => res.json())
       .then(data => {
-        setPhoto(data);
+        setPhoto(data.photo);
+        console.log(data.comments);
         setComments(data.comments || []);
         setLoading(false);
       })
@@ -35,20 +36,26 @@ function PhotoComments() {
     
     if (!newComment.trim()) return;
     
-    fetch(`http://localhost:3001/photos/${photoId}`, {
-      method: 'GET',
+    fetch(`http://localhost:3001/comments/${photoId}`, {
+      method: 'Post',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userContext.user.token}`
       },
       body: JSON.stringify({ text: newComment })
     })
-      .then(res => res.json())
-      .then(data => {
-        setComments([...comments, data]);
-        setNewComment('');
-      })
-      .catch(err => console.error("Error adding comment:", err));
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Failed to post comment');
+      }
+      return res.json();
+    })
+    .then(newCommentData => {
+      // Add the new comment to the existing comments
+      setComments(prevComments => [...prevComments, newCommentData]);
+      setNewComment(''); // Clear the input field
+    })
+    .catch(err => console.error("Error adding comment:", err));
   };
 
   if (loading) {
@@ -70,8 +77,8 @@ function PhotoComments() {
           alt={photo.title} 
         />
         <div className="card-body">
-          <h5 className="card-title">{photo.title}</h5>
-          <p className="card-text">{photo.comment}</p>
+          <h5 className="card-title">{photo.title  || "Untitled Photo"}</h5>
+          <p className="card-text">{photo.comment || "No caption provided"}</p>
         </div>
       </div>
       
@@ -84,8 +91,8 @@ function PhotoComments() {
           {comments.map(comment => (
             <div key={comment._id} className="list-group-item">
               <div className="d-flex w-100 justify-content-between">
-                <h6 className="mb-1">{comment.author?.username || 'Anonymous'}</h6>
-                <small>{new Date(comment.created).toLocaleDateString()}</small>
+                <h6 className="mb-1">{comment.postedBy?.username || 'Anonymous'}</h6>
+                <small>{new Date(comment.postedOn).toLocaleDateString()}</small>
               </div>
               <p className="mb-1">{comment.text}</p>
             </div>

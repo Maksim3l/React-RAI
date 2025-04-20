@@ -5,7 +5,7 @@ var commentController = require('../controllers/commentController.js');
 /*
  * GET
  */
-router.get('/', commentController.list);
+router.get('/photo/:photoId', commentController.list);
 
 /*
  * GET
@@ -15,7 +15,7 @@ router.get('/:id', commentController.show);
 /*
  * POST
  */
-router.post('/', commentController.create);
+router.post('/:photoId', commentController.create);
 
 /*
  * PUT
