@@ -56,7 +56,7 @@ function App() {
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/logout" element={<Logout />}></Route>
             <Route path="/like/:photoId" element={<LikeHandler />}></Route>
-            <Route path="/photo/:photoId/comments" element={<PhotoComments />}></Route>
+            <Route path="/photo/:photoId" element={<PhotoComments />}></Route>
           </Routes>
         </div>
       </UserContext.Provider>

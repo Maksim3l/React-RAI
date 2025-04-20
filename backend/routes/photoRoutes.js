@@ -18,7 +18,7 @@ function requiresLogin(req, res, next){
 
 router.get('/', photoController.list);
 router.get('/:id', photoController.show);
-router.get('/like/:id', photoController.like);
+router.post('/like/:id', photoController.like);
 
 router.post('/', requiresLogin, upload.single('image'), photoController.create);
 
