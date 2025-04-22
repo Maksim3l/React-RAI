@@ -12,7 +12,6 @@ function PhotoComments() {
   const userContext = useContext(UserContext);
 
   useEffect(() => {
-    // Fetch photo details
     fetch(`http://localhost:3001/photos/${photoId}`)
       .then(res => res.json())
       .then(data => {
@@ -41,8 +40,8 @@ function PhotoComments() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ text: newComment })
-      //credentials: 'include'
+      body: JSON.stringify({ text: newComment }),
+      credentials: 'include'
     })
       .then(res => {
         if (!res.ok) {
@@ -51,9 +50,8 @@ function PhotoComments() {
         return res.json();
       })
       .then(newCommentData => {
-        // Add the new comment to the existing comments
         setComments(prevComments => [...prevComments, newCommentData]);
-        setNewComment(''); // Clear the input field
+        setNewComment('');
       })
       .catch(err => console.error("Error adding comment:", err));
   };
@@ -89,7 +87,7 @@ function PhotoComments() {
                 to={`/photo/delete/${photoId}`}
                 onClick={(e) => {
                   if (!window.confirm('Are you sure you want to delete this photo?')) {
-                    e.preventDefault(); // Prevent navigation if user cancels
+                    e.preventDefault();
                   }
                 }}
                 style={{

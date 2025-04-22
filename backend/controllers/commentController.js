@@ -6,17 +6,12 @@ var CommentModel = require('../models/commentModel.js');
  * @description :: Server-side logic for managing comments.
  */
 module.exports = {
-
-    /**
-     * commentController.list()
-     */
     list: function (req, res) {
-        const photoId = req.params.photoId; // Get photoId from URL parameters
+        const photoId = req.params.photoId; 
 
-        // Find comments that match the specific photoId
         CommentModel.find({ photoId: photoId })
-            .populate('postedBy', 'username') // Optionally populate the user information
-            .sort({ postedOn: -1 }) // Sort by newest first
+            .populate('postedBy', 'username') 
+            .sort({ postedOn: 1 }) 
             .exec(function (err, comments) {
                 if (err) {
                     return res.status(500).json({
