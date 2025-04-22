@@ -126,5 +126,37 @@ module.exports = {
 
             return res.status(204).json();
         });
-    }
+    },
+
+    like: function (req, res) {
+            var id = req.params.id;
+    
+            CommentModel.findOne({ _id: id }, function (err, comment) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when getting comment',
+                        error: err
+                    });
+                }
+    
+                if (!comment) {
+                    return res.status(404).json({
+                        message: 'No such comment'
+                    });
+                }
+    
+                comment.likes = comment.likes + 1;
+    
+                comment.save(function (err, comment) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Error when updating comment.',
+                            error: err
+                        });
+                    }
+    
+                    return res.json(comment);
+                });
+            });
+        }
 };

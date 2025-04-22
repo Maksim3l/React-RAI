@@ -11,7 +11,7 @@ function PhotoComments() {
   const [loading, setLoading] = useState(true);
   const userContext = useContext(UserContext);
 
-  useEffect(() => {
+  useEffect(() => { //should refetch after new comment added
     fetch(`http://localhost:3001/photos/${photoId}`)
       .then(res => res.json())
       .then(data => {
@@ -78,6 +78,16 @@ function PhotoComments() {
           <h5 className="card-title">{photo.title || "Untitled Photo"}</h5>
           <p className="card-text">{photo.comment || "No caption provided"}</p>
 
+          <div className="flex items-center mb-2">
+            <span className="mr-1">Views: </span>
+            <span>{photo.views || 0}</span>
+          </div>
+
+          <div className="flex items-center mb-2">
+            <span className="mr-1">Likes: </span>
+            <span>{photo.likes}</span>
+          </div>
+
           {userContext.user && photo.postedBy && userContext.user._id === photo.postedBy && (
             <>
               <StyledButton to={`/photo/edit/${photoId}`} color="#fff" hoverColor="#dee9fa">
@@ -141,6 +151,14 @@ function PhotoComments() {
                 <small>{new Date(comment.postedOn).toLocaleDateString()}</small>
               </div>
               <p className="mb-1">{comment.text}</p>
+              <div className="flex items-center mb-2">
+                <span className="mr-1">Likes: </span>
+                <span>{comment.likes}</span>
+              </div>
+
+              <StyledButton to={`/comment/like/${comment._id}`} color="#fff" hoverColor="#dee9fa">
+                Like
+              </StyledButton>
               <StyledButton to={`/comment/edit/${comment._id}`} color="#fff" hoverColor="#dee9fa">
                 Edit
               </StyledButton>
