@@ -75,7 +75,7 @@ function Photo(props) {
 
         {/* Action buttons */}
         <div className="flex border-t pt-3">
-          <StyledButton to={`/like/${photo._id}`} color="#fff" hoverColor="#dee9fa">
+          <StyledButton to={`/photo/like/${photo._id}`} color="#fff" hoverColor="#dee9fa">
                Like
            </StyledButton>
 

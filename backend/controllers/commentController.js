@@ -6,17 +6,12 @@ var CommentModel = require('../models/commentModel.js');
  * @description :: Server-side logic for managing comments.
  */
 module.exports = {
-
-    /**
-     * commentController.list()
-     */
     list: function (req, res) {
-        const photoId = req.params.photoId; // Get photoId from URL parameters
+        const photoId = req.params.photoId; 
 
-        // Find comments that match the specific photoId
         CommentModel.find({ photoId: photoId })
-            .populate('postedBy', 'username') // Optionally populate the user information
-            .sort({ postedOn: -1 }) // Sort by newest first
+            .populate('postedBy', 'username') 
+            .sort({ postedOn: 1 }) 
             .exec(function (err, comments) {
                 if (err) {
                     return res.status(500).json({
@@ -131,5 +126,37 @@ module.exports = {
 
             return res.status(204).json();
         });
-    }
+    },
+
+    like: function (req, res) {
+            var id = req.params.id;
+    
+            CommentModel.findOne({ _id: id }, function (err, comment) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when getting comment',
+                        error: err
+                    });
+                }
+    
+                if (!comment) {
+                    return res.status(404).json({
+                        message: 'No such comment'
+                    });
+                }
+    
+                comment.likes = comment.likes + 1;
+    
+                comment.save(function (err, comment) {
+                    if (err) {
+                        return res.status(500).json({
+                            message: 'Error when updating comment.',
+                            error: err
+                        });
+                    }
+    
+                    return res.json(comment);
+                });
+            });
+        }
 };
