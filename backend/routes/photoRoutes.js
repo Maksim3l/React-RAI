@@ -22,8 +22,8 @@ router.post('/like/:id', photoController.like);
 
 router.post('/', requiresLogin, upload.single('image'), photoController.create);
 
-router.put('/:id', photoController.update);
+router.put('/:id', requiresLogin, photoController.update);
 
-router.delete('/:id', photoController.remove);
+router.delete('/:id', requiresLogin, photoController.remove);
 
 module.exports = router;
