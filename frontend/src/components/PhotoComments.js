@@ -112,7 +112,7 @@ function PhotoComments() {
       <h4>Comments</h4>
 
       {userContext.user ? (
-        <form onSubmit={handleSubmitComment}>
+        <form onSubmit={handleSubmitComment} className="mb-3">
           <div className="mb-3">
             <label htmlFor="comment" className="form-label">Add a comment</label>
             <textarea
