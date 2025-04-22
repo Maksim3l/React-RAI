@@ -85,9 +85,27 @@ function PhotoComments() {
               <StyledButton to={`/photo/edit/${photoId}`} color="#fff" hoverColor="#dee9fa">
                 Edit
               </StyledButton>
-              <StyledButton to={`/photo/delete/${photoId}`} color="#fff" hoverColor="#dee9fa">
+              <Link
+                to={`/photo/delete/${photoId}`}
+                onClick={(e) => {
+                  if (!window.confirm('Are you sure you want to delete this photo?')) {
+                    e.preventDefault(); // Prevent navigation if user cancels
+                  }
+                }}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "4px",
+                  textDecoration: "none",
+                  color: "black",
+                  cursor: "pointer",
+                  backgroundColor: 'fff',
+                  transition: "background-color 0.3s ease"
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#fadede'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fff'}
+              >
                 Delete
-              </StyledButton>
+              </Link>
             </>
           )}
         </div>
