@@ -2,29 +2,11 @@ var express = require('express');
 var router = express.Router();
 var commentController = require('../controllers/commentController.js');
 
-/*
- * GET
- */
 router.get('/photo/:photoId', commentController.list);
-
-/*
- * GET
- */
 router.get('/:id', commentController.show);
-
-/*
- * POST
- */
 router.post('/:photoId', commentController.create);
-
-/*
- * PUT
- */
+router.post('/like/:id', commentController.like);
 router.put('/:id', commentController.update);
-
-/*
- * DELETE
- */
 router.delete('/:id', commentController.remove);
 
 module.exports = router;

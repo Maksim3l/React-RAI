@@ -8,7 +8,8 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
 import AddPhoto from "./components/AddPhoto";
-import LikeHandler from './components/LikeHandler'; 
+import PhotoLikeHandler from './components/PhotoLikeHandler'; 
+import CommentLikeHandler from './components/CommentLikeHandler'; 
 import PhotoComments from './components/PhotoComments';
 import PhotoEdit from './components/PhotoEdit';
 import PhotoDelete from './components/PhotoDelete';
@@ -41,7 +42,8 @@ function App() {
             <Route path="/publish" element={<AddPhoto />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/logout" element={<Logout />}></Route>
-            <Route path="/like/:photoId" element={<LikeHandler />}></Route>
+            <Route path="/photo/like/:photoId" element={<PhotoLikeHandler />}></Route>
+            <Route path="/comment/like/:commentId" element={<CommentLikeHandler />}></Route>
             <Route path="/photo/:photoId" element={<PhotoComments />}></Route>
             <Route path="/photo/edit/:photoId" element={<PhotoEdit />}></Route>
             <Route path="/photo/delete/:photoId" element={<PhotoDelete />}></Route>

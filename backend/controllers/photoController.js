@@ -48,10 +48,9 @@ module.exports = {
                 });
             }
 
-            // Now find comments for this photo
             CommentModel.find({ photoId: id })
                 .populate('postedBy')
-                .sort({ postedOn: -1 }) // Sort by newest first (changed from just 'likes')
+                .sort({likes: -1, postedOn: 1  }) 
                 .exec(function (err, comments) {
                     if (err) {
                         return res.status(500).json({
@@ -60,7 +59,6 @@ module.exports = {
                         });
                     }
 
-                    // Return both photo and comments in the same response
                     return res.json({
                         photo: photo,
                         comments: comments
