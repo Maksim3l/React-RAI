@@ -12,6 +12,8 @@ import LikeHandler from './components/LikeHandler';
 import PhotoComments from './components/PhotoComments';
 import PhotoEdit from './components/PhotoEdit';
 import PhotoDelete from './components/PhotoDelete';
+import CommentEdit from './components/CommentEdit';
+import CommentDelete from './components/CommentDelete';
 
 function App() {
   const [user, setUser] = useState(localStorage.user ? JSON.parse(localStorage.user) : null);
