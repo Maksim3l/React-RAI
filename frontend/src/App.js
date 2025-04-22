@@ -43,6 +43,8 @@ function App() {
             <Route path="/photo/:photoId" element={<PhotoComments />}></Route>
             <Route path="/photo/edit/:photoId" element={<PhotoEdit />}></Route>
             <Route path="/photo/delete/:photoId" element={<PhotoDelete />}></Route>
+            <Route path="/comment/edit/:commentId" element={<CommentEdit />}></Route>
+            <Route path="/comment/delete/:commentId" element={<CommentDelete />}></Route>
           </Routes>
         </div>
       </UserContext.Provider>

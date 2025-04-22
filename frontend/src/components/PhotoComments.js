@@ -111,22 +111,6 @@ function PhotoComments() {
 
       <h4>Comments</h4>
 
-      {comments.length === 0 ? (
-        <p>No comments yet.</p>
-      ) : (
-        <div className="list-group mb-4">
-          {comments.map(comment => (
-            <div key={comment._id} className="list-group-item">
-              <div className="d-flex w-100 justify-content-between">
-                <h6 className="mb-1">{comment.postedBy?.username || 'Anonymous'}</h6>
-                <small>{new Date(comment.postedOn).toLocaleDateString()}</small>
-              </div>
-              <p className="mb-1">{comment.text}</p>
-            </div>
-          ))}
-        </div>
-      )}
-
       {userContext.user ? (
         <form onSubmit={handleSubmitComment}>
           <div className="mb-3">
@@ -144,6 +128,46 @@ function PhotoComments() {
         </form>
       ) : (
         <p>Please <Link to="/login">log in</Link> to comment.</p>
+      )}
+
+      {comments.length === 0 ? (
+        <p>No comments yet.</p>
+      ) : (
+        <div className="list-group mb-4">
+          {comments.map(comment => (
+            <div key={comment._id} className="list-group-item">
+              <div className="d-flex w-100 justify-content-between">
+                <h6 className="mb-1">{comment.postedBy?.username || 'Anonymous'}</h6>
+                <small>{new Date(comment.postedOn).toLocaleDateString()}</small>
+              </div>
+              <p className="mb-1">{comment.text}</p>
+              <StyledButton to={`/comment/edit/${comment._id}`} color="#fff" hoverColor="#dee9fa">
+                Edit
+              </StyledButton>
+              <Link
+                to={`/comment/delete/${comment._id}`}
+                onClick={(e) => {
+                  if (!window.confirm('Are you sure you want to delete this comment?')) {
+                    e.preventDefault();
+                  }
+                }}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "4px",
+                  textDecoration: "none",
+                  color: "black",
+                  cursor: "pointer",
+                  backgroundColor: 'fff',
+                  transition: "background-color 0.3s ease"
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#fadede'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fff'}
+              >
+                Delete
+              </Link>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );
