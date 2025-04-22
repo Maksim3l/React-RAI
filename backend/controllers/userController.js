@@ -29,7 +29,7 @@ module.exports = {
     show: function (req, res) {
         var id = req.params.id;
 
-        UserModel.findOne({_id: id}, function (err, user) {
+        UserModel.findOne({ _id: id }, function (err, user) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting user.',
@@ -52,9 +52,9 @@ module.exports = {
      */
     create: function (req, res) {
         var user = new UserModel({
-			username : req.body.username,
-			password : req.body.password,
-			email : req.body.email
+            username: req.body.username,
+            password: req.body.password,
+            email: req.body.email
         });
 
         user.save(function (err, user) {
@@ -76,7 +76,7 @@ module.exports = {
     update: function (req, res) {
         var id = req.params.id;
 
-        UserModel.findOne({_id: id}, function (err, user) {
+        UserModel.findOne({ _id: id }, function (err, user) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting user',
@@ -91,9 +91,9 @@ module.exports = {
             }
 
             user.username = req.body.username ? req.body.username : user.username;
-			user.password = req.body.password ? req.body.password : user.password;
-			user.email = req.body.email ? req.body.email : user.email;
-			
+            user.password = req.body.password ? req.body.password : user.password;
+            user.email = req.body.email ? req.body.email : user.email;
+
             user.save(function (err, user) {
                 if (err) {
                     return res.status(500).json({
@@ -125,17 +125,17 @@ module.exports = {
         });
     },
 
-    showRegister: function(req, res){
+    showRegister: function (req, res) {
         res.render('user/register');
     },
 
-    showLogin: function(req, res){
+    showLogin: function (req, res) {
         res.render('user/login');
     },
 
-    login: function(req, res, next){
-        UserModel.authenticate(req.body.username, req.body.password, function(err, user){
-            if(err || !user){
+    login: function (req, res, next) {
+        UserModel.authenticate(req.body.username, req.body.password, function (err, user) {
+            if (err || !user) {
                 var err = new Error('Wrong username or paassword');
                 err.status = 401;
                 return next(err);
@@ -146,30 +146,30 @@ module.exports = {
         });
     },
 
-    profile: function(req, res,next){
+    profile: function (req, res, next) {
         UserModel.findById(req.session.userId)
-        .exec(function(error, user){
-            if(error){
-                return next(error);
-            } else{
-                if(user===null){
-                    var err = new Error('Not authorized, go back!');
-                    err.status = 400;
-                    return next(err);
-                } else{
-                    //return res.render('user/profile', user);
-                    return res.json(user);
+            .exec(function (error, user) {
+                if (error) {
+                    return next(error);
+                } else {
+                    if (user === null) {
+                        var err = new Error('Not authorized, go back!');
+                        err.status = 400;
+                        return next(err);
+                    } else {
+                        //return res.render('user/profile', user);
+                        return res.json(user);
+                    }
                 }
-            }
-        });  
+            });
     },
 
-    logout: function(req, res, next){
-        if(req.session){
-            req.session.destroy(function(err){
-                if(err){
+    logout: function (req, res, next) {
+        if (req.session) {
+            req.session.destroy(function (err) {
+                if (err) {
                     return next(err);
-                } else{
+                } else {
                     //return res.redirect('/');
                     return res.status(201).json({});
                 }

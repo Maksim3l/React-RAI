@@ -17,13 +17,13 @@ function requiresLogin(req, res, next){
 }
 
 router.get('/', photoController.list);
-//router.get('/publish', requiresLogin, photoController.publish);
 router.get('/:id', photoController.show);
+router.post('/like/:id', photoController.like);
 
 router.post('/', requiresLogin, upload.single('image'), photoController.create);
 
-router.put('/:id', photoController.update);
+router.put('/:id', requiresLogin, photoController.update);
 
-router.delete('/:id', photoController.remove);
+router.delete('/:id', requiresLogin, photoController.remove);
 
 module.exports = router;
