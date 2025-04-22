@@ -10,6 +10,7 @@ import Logout from "./components/Logout";
 import AddPhoto from "./components/AddPhoto";
 import LikeHandler from './components/LikeHandler'; 
 import PhotoComments from './components/PhotoComments';
+import PhotoEdit from './components/PhotoEdit';
 
 function App() {
   /**
@@ -57,6 +58,8 @@ function App() {
             <Route path="/logout" element={<Logout />}></Route>
             <Route path="/like/:photoId" element={<LikeHandler />}></Route>
             <Route path="/photo/:photoId" element={<PhotoComments />}></Route>
+            <Route path="/photo/edit/:photoId" element={<PhotoEdit />}></Route>
+            {/*<Route path="/photo/delete/:photoId" element={<PhotoDelete />}></Route>*/}
           </Routes>
         </div>
       </UserContext.Provider>
