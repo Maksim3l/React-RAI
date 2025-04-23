@@ -22,10 +22,13 @@ module.exports = {
                         error: err
                     });
                 }
-                var data = [];
-                data.photos = photos;
-                //return res.render('photo/list', data);
-                return res.json(photos);
+            const filteredPhotos = photos.filter(photo => 
+                !photo.reports || photo.reports <= 3
+            );
+            
+            var data = [];
+            data.photos = filteredPhotos;
+            return res.json(filteredPhotos);
             });
     },
 
@@ -77,7 +80,8 @@ module.exports = {
             path: "/images/" + req.file.filename,
             postedBy: req.session.userId,
             views: 0,
-            likes: 0
+            likes: 0,
+            reports: 0
         });
 
         photo.save(function (err, photo) {
@@ -119,6 +123,7 @@ module.exports = {
             photo.postedBy = req.body.postedBy ? req.body.postedBy : photo.postedBy;
             photo.views = req.body.views ? req.body.views : photo.views;
             photo.likes = req.body.likes ? req.body.likes : photo.likes;
+            photo.reports = req.body.reports ? req.body.reports : photo.reports;
 
             photo.save(function (err, photo) {
                 if (err) {
@@ -173,6 +178,38 @@ module.exports = {
             }
 
             photo.likes = photo.likes + 1;
+
+            photo.save(function (err, photo) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when updating photo.',
+                        error: err
+                    });
+                }
+
+                return res.json(photo);
+            });
+        });
+    },
+
+    report: function (req, res) {
+        var id = req.params.id;
+
+        PhotoModel.findOne({ _id: id }, function (err, photo) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting photo',
+                    error: err
+                });
+            }
+
+            if (!photo) {
+                return res.status(404).json({
+                    message: 'No such photo'
+                });
+            }
+
+            photo.reports = photo.reports + 1;
 
             photo.save(function (err, photo) {
                 if (err) {

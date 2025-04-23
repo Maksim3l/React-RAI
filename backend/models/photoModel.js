@@ -14,7 +14,8 @@ var photoSchema = new Schema({
 		default: Date.now
 	},
 	'views': Number,
-	'likes': Number
+	'likes': Number,
+	'reports': Number
 });
 
 module.exports = mongoose.model('photo', photoSchema);

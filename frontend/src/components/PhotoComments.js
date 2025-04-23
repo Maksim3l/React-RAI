@@ -75,6 +75,33 @@ function PhotoComments() {
           alt={photo.title}
         />
         <div className="card-body">
+
+          {userContext.user && photo.postedBy && userContext.user._id != photo.postedBy && (
+            <>
+              <Link
+                to={`/photo/report/${photoId}`}
+                onClick={(e) => {
+                  if (!window.confirm('Are you sure you want to report this photo?')) {
+                    e.preventDefault();
+                  }
+                }}
+                style={{
+                  padding: "8px 16px",
+                  borderRadius: "4px",
+                  textDecoration: "none",
+                  color: "black",
+                  cursor: "pointer",
+                  backgroundColor: 'fff',
+                  transition: "background-color 0.3s ease",
+                  margin: "8px"
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#fadede'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fff'}
+              >
+                Report
+              </Link>
+            </>
+          )}
           <h5 className="card-title">{photo.title || "Untitled Photo"}</h5>
           <p className="card-text">{photo.comment || "No caption provided"}</p>
 
@@ -87,6 +114,10 @@ function PhotoComments() {
             <span className="mr-1">Likes: </span>
             <span>{photo.likes}</span>
           </div>
+
+          <StyledButton to={`/photo/like/${photoId}`} color="#fff" hoverColor="#dee9fa">
+            Like
+          </StyledButton>
 
           {userContext.user && photo.postedBy && userContext.user._id === photo.postedBy && (
             <>
@@ -159,30 +190,34 @@ function PhotoComments() {
               <StyledButton to={`/comment/like/${comment._id}`} color="#fff" hoverColor="#dee9fa">
                 Like
               </StyledButton>
-              <StyledButton to={`/comment/edit/${comment._id}`} color="#fff" hoverColor="#dee9fa">
-                Edit
-              </StyledButton>
-              <Link
-                to={`/comment/delete/${comment._id}`}
-                onClick={(e) => {
-                  if (!window.confirm('Are you sure you want to delete this comment?')) {
-                    e.preventDefault();
-                  }
-                }}
-                style={{
-                  padding: "8px 16px",
-                  borderRadius: "4px",
-                  textDecoration: "none",
-                  color: "black",
-                  cursor: "pointer",
-                  backgroundColor: 'fff',
-                  transition: "background-color 0.3s ease"
-                }}
-                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#fadede'}
-                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fff'}
-              >
-                Delete
-              </Link>
+              {userContext.user && photo.postedBy && userContext.user._id === photo.postedBy && (
+                <>
+                  <StyledButton to={`/comment/edit/${comment._id}`} color="#fff" hoverColor="#dee9fa">
+                    Edit
+                  </StyledButton>
+                  <Link
+                    to={`/comment/delete/${comment._id}`}
+                    onClick={(e) => {
+                      if (!window.confirm('Are you sure you want to delete this comment?')) {
+                        e.preventDefault();
+                      }
+                    }}
+                    style={{
+                      padding: "8px 16px",
+                      borderRadius: "4px",
+                      textDecoration: "none",
+                      color: "black",
+                      cursor: "pointer",
+                      backgroundColor: 'fff',
+                      transition: "background-color 0.3s ease"
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#fadede'}
+                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fff'}
+                  >
+                    Delete
+                  </Link>
+                </>
+              )}
             </div>
           ))}
         </div>
