@@ -11,7 +11,7 @@ function PhotoComments() {
   const [loading, setLoading] = useState(true);
   const userContext = useContext(UserContext);
 
-  useEffect(() => { //should refetch after new comment added
+  useEffect(() => { 
     fetch(`http://localhost:3001/photos/${photoId}`)
       .then(res => res.json())
       .then(data => {
@@ -24,6 +24,25 @@ function PhotoComments() {
         setLoading(false);
       });
   }, [photoId]);
+
+  useEffect(() => {
+    fetch(`http://localhost:3001/photos/view/${photoId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userContext.user.token}`
+      }
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .catch(error => {
+      console.error('Error liking photo:', error);
+    });
+  }, [photoId, userContext]);
 
   const handleSubmitComment = (e) => {
     e.preventDefault();

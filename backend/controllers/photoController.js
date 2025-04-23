@@ -8,13 +8,9 @@ var CommentModel = require('../models/commentModel.js');
  */
 module.exports = {
 
-    /**
-     * photoController.list()
-     */
     list: function (req, res) {
         PhotoModel.find()
             .populate('postedBy')
-            .sort({ postedOn: -1 })
             .exec(function (err, photos) {
                 if (err) {
                     return res.status(500).json({
@@ -22,13 +18,27 @@ module.exports = {
                         error: err
                     });
                 }
-            const filteredPhotos = photos.filter(photo => 
-                !photo.reports || photo.reports <= 3
-            );
-            
-            var data = [];
-            data.photos = filteredPhotos;
-            return res.json(filteredPhotos);
+                
+                const filteredPhotos = photos.filter(photo =>
+                    !photo.reports || photo.reports < 3
+                );
+                
+                const now = new Date().getTime();
+                
+                filteredPhotos.forEach(photo => {
+                    const likes = photo.likes || 0;
+                    const ageInHours = (now - photo.postedOn.getTime()) / (1000 * 60 * 60);
+                    
+                    // Simple formula: score = likes / (age in hours + 2)^1.5
+                    // The +2 prevents division by zero and gives new posts some visibility
+                    photo.score = likes / Math.pow(ageInHours + 2, 1.5);
+                });
+                
+                filteredPhotos.sort((a, b) => b.score - a.score);
+                
+                var data = [];
+                data.photos = filteredPhotos;
+                return res.json(filteredPhotos);
             });
     },
 
@@ -210,6 +220,37 @@ module.exports = {
             }
 
             photo.reports = photo.reports + 1;
+
+            photo.save(function (err, photo) {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'Error when updating photo.',
+                        error: err
+                    });
+                }
+
+                return res.json(photo);
+            });
+        });
+    },
+    view: function (req, res) {
+        var id = req.params.id;
+
+        PhotoModel.findOne({ _id: id }, function (err, photo) {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error when getting photo',
+                    error: err
+                });
+            }
+
+            if (!photo) {
+                return res.status(404).json({
+                    message: 'No such photo'
+                });
+            }
+
+            photo.views = photo.views + 1;
 
             photo.save(function (err, photo) {
                 if (err) {
